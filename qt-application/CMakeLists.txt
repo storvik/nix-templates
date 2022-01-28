@@ -13,7 +13,7 @@ include(InstallRequiredSystemLibraries)
 
 option(ENABLE_TESTING "Should unit tests be compiled." ON)
 
-find_package(Qt5 5.15 REQUIRED COMPONENTS Core Network Widgets Test)
+find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Test)
 
 # Qt settings
 set(CMAKE_AUTOMOC ON)

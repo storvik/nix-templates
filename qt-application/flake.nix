@@ -43,7 +43,6 @@
 
             buildInputs = [
               libsForQt5.qtbase
-              libsForQt5.qtconnectivity
               libsForQt5.qttools # needed for designer
             ];
 
