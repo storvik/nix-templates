@@ -2,14 +2,14 @@
 
 This is a template to easily get started with a Qt application utilizing Nix.
 
-*1. Make directory and initiate template*
+**1. Make directory and initiate template**
 
 ``` shell
 $ mkdir mysuperqtapp && cd mysuperqtapp
 $ nix flake init -t github:storvik/nix-templates#qt-application
 ```
 
-*2. Change name*
+**2. Change name**
 
 Replace all instances of _myqtapp_ with new name.
 This can be done by using the following oneliner:
@@ -18,11 +18,11 @@ This can be done by using the following oneliner:
 $ grep --exclude=README.md -rl myqtapp . | xargs sed -i 's/myqtapp/mysuperqtapp/g'
 ```
 
-*3. Add third party dependencies, if any*
+**3. Add third party dependencies, if any**
 
 To add third party libraries to both `CMakeLists.txt` and `flake.nix`.
 
-*4. Develop and build*
+**4. Develop and build**
 
 Development can be done in a `nix shell`by running:
 
