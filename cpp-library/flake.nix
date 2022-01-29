@@ -42,6 +42,13 @@
           ];
         };
 
+        devShell = pkgs.mkShell {
+          buildInputs = [
+            packages.mylib.nativeBuildInputs
+            packages.mylib.buildInputs
+          ];
+        };
+
         defaultPackage = packages.mylib;
 
       });
