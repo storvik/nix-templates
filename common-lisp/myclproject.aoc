@@ -1,0 +1,12 @@
+(defsystem "myclproject"
+  :version "0.1.0"
+  :author "Petter Storvik"
+  :license ""
+  :depends-on ("alexandria"
+               "cl-ppcre")
+  :components ((:module "src"
+                :components
+                ((:file "package")
+                 (:file "addition"))))
+  :description ""
+  :in-order-to ((test-op (test-op :myclproject-test))))

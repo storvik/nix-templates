@@ -1,0 +1,12 @@
+(defsystem "myclproject-test"
+  :author "Petter Storvik"
+  :license ""
+  :depends-on ("myclproject"
+               "fiveam")
+  :components ((:module "tests"
+                :components
+                ((:file "package")
+                 (:file "main")
+                 (:file "addition-tests"))))
+  :description "Test system for myclproject"
+  :perform (test-op (op c) (symbol-call :myclproject-test :test-myclproject)))
