@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 3.10.0)
 
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+  message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+endif()
+
 project(
   myqtapp
   VERSION 0.0.1
-  LANGUAGES CXX)
+  LANGUAGES CXX # C CUDA
+  DESCRIPTION "Qt application description.")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(GNUInstallDirs)
 include(InstallRequiredSystemLibraries)
@@ -35,7 +41,10 @@ set(${PROJECT_NAME}_UIS ui/MainWindow.ui)
 
 # set(${PROJECT_NAME}_RESOURCES assets/resources.qrc)
 
-add_executable(${PROJECT_NAME}
+add_executable(${PROJECT_NAME})
+
+target_sources(${PROJECT_NAME}
+  PRIVATE
   ${${PROJECT_NAME}_SOURCES}
   ${${PROJECT_NAME}_INCLUDES}
   ${${PROJECT_NAME}_UIS})
@@ -51,9 +60,10 @@ if(ENABLE_TESTING)
   enable_testing()
 
   # Test test
-  add_executable(TestTest tests/QtTestTest.cpp)
-  add_test(NAME TestTest COMMAND TestTest)
+  add_executable(TestTest)
+  target_sources(TestTest PRIVATE tests/QtTestTest.cpp)
   target_link_libraries(TestTest PRIVATE Qt5::Test)
+  add_test(NAME TestTest COMMAND TestTest)
 
 endif()
 

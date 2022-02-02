@@ -1,13 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
-project(mylib VERSION 0.0.1 DESCRIPTION "C++ library description")
+project(mylib
+  LANGUAGES CXX # C CUDA
+  VERSION 0.0.1
+  DESCRIPTION "C++ library description")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(CTest)                          # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
 include(CMakeDependentOption)           # This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
@@ -42,7 +46,7 @@ set(${PROJECT_NAME}_SOURCES
 set(${PROJECT_NAME}_INCLUDES
   include/mylib/test.h)
 
-add_library(${PROJECT_NAME} SHARED ${${PROJECT_NAME}_SOURCES})
+add_library(${PROJECT_NAME} SHARED)
 
 # Set project version number
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
@@ -54,7 +58,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 0)
 # Pricate headers should not be placed in include/
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER ${${PROJECT_NAME}_INCLUDES})
 
-# target includes
+target_sources(${PROJECT_NAME}
+  PRIVATE
+  ${${PROJECT_NAME}_SOURCES})
+
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   include/${PROJECT_NAME}
@@ -66,9 +73,12 @@ target_link_libraries(${PROJECT_NAME}
 
 # do the same for static version
 if(ENABLE_STATIC)
-  add_library(${PROJECT_NAME}_STATIC STATIC ${${PROJECT_NAME}_SOURCES})
+  add_library(${PROJECT_NAME}_STATIC STATIC)
   set_target_properties(${PROJECT_NAME}_STATIC PROPERTIES VERSION ${PROJECT_VERSION})
   set_target_properties(${PROJECT_NAME}_STATIC PROPERTIES PUBLIC_HEADER ${${PROJECT_NAME}_INCLUDES})
+  target_sources(${PROJECT_NAME}_STATIC
+    PRIVATE
+    ${${PROJECT_NAME}_SOURCES})
   target_include_directories(${PROJECT_NAME}_STATIC
     PRIVATE
     include/${PROJECT_NAME}
