@@ -42,6 +42,11 @@
           ];
         };
 
+        packages.mylibtest = packages.mylib.overrideAttrs (oldAttrs: rec {
+          doCheck = true;
+          cmakeFlags = [ "-DENABLE_TESTING=ON" ];
+        });
+
         devShell = pkgs.mkShell {
           buildInputs = [
             packages.mylib.nativeBuildInputs

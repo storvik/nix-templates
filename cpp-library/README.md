@@ -39,3 +39,12 @@ To build with Nix:
 ``` shell
 $ nix build
 ```
+
+In order to build and run tests theres a `mylibtest` package that can be used.
+This sets `doCheck = true` and adds `-DENABLE_TESTING=ON`cmake flag.
+
+``` shell
+$ nix build .#mylibtest --print-build-logs
+```
+
+Note that `--print-build-logs` prints build log to screen, which is hidden by default when using `nix build`.
