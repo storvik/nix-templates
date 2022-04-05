@@ -33,13 +33,6 @@ set(${PROJECT_NAME}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NA
 # Check dependencies
 find_package(spdlog REQUIRED)
 
-# Conditional testing stuff if needed
-# if(ENABLE_TESTING)
-#   find_package(GTest REQUIRED)
-#   include(GoogleTest)
-#   enable_testing()
-# endif()
-
 set(${PROJECT_NAME}_SOURCES
   src/test.cpp)
 
@@ -128,3 +121,16 @@ install(
   NAMESPACE ${PROJECT_NAME}::
   FILE ${PROJECT_NAME}Targets.cmake
   DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR})
+
+if(ENABLE_TESTING)
+  enable_testing()
+
+  # Enable extra warnings when building tests
+  if (MSVC)
+    add_compile_options(/W4 /WX)
+  else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
+  endif()
+
+  add_subdirectory(tests)
+endif()
