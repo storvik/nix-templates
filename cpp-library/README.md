@@ -1,6 +1,7 @@
 # mylib
 
 This is a template to easily get started with a C++ library utilizing Nix.
+Structure is based on [The Pitchfork Layout](https://github.com/vector-of-bool/pitchfork).
 
 **1. Make directory and initiate template**
 
