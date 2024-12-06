@@ -21,7 +21,7 @@
 
     {
       packages = forAllSystems (pkgs: {
-        packages.mylib = with pkgs; stdenv.mkDerivation {
+        mylib = with pkgs; stdenv.mkDerivation {
           name = "mylib";
           version = "0.0.1";
 
@@ -39,7 +39,7 @@
           ];
         };
 
-        packages.mylibtest = packages.mylib.overrideAttrs (oldAttrs: rec {
+        mylibtest = packages.mylib.overrideAttrs (oldAttrs: rec {
           doCheck = true;
           cmakeFlags = [ "-DENABLE_TESTING=ON" ];
         });
@@ -51,7 +51,6 @@
             buildInputs = [
               packages.mylib.nativeBuildInputs
               packages.mylib.buildInputs
-
             ];
           };
         });
