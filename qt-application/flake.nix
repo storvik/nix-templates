@@ -29,7 +29,7 @@
               name = "myqtapp";
               version = "0.0.1";
 
-              src = gitignoreSource ./.;
+              src = lib.cleanSource ./.;
 
               nativeBuildInputs = [
                 cmake
