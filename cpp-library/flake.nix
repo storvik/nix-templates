@@ -14,7 +14,7 @@
           (system:
             function (import nixpkgs {
               inherit system;
-              overlays = [ esp-idf.overlays.default ];
+              overlays = [ ];
               config = { };
             }));
     in
