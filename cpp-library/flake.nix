@@ -2,33 +2,30 @@
   description = "C++ library description";
 
   inputs = {
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    gitignore = {
-      url = "github:hercules-ci/gitignore.nix";
-      flake = false;
-    };
-
   };
 
-  outputs = { self, nixpkgs, gitignore, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        gitignoreSource = (import gitignore { inherit (pkgs) lib; }).gitignoreSource;
-      in
-      rec {
+  outputs = { self, nixpkgs }:
+    let
+      linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
+      darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
+      forAllSystems = function:
+        nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems)
+          (system:
+            function (import nixpkgs {
+              inherit system;
+              overlays = [ esp-idf.overlays.default ];
+              config = { };
+            }));
+    in
+
+    {
+      packages = forAllSystems (pkgs: {
         packages.mylib = with pkgs; stdenv.mkDerivation {
           name = "mylib";
           version = "0.0.1";
 
-          src = gitignoreSource ./.;
+          src = lib.cleanSource ./.;
 
           nativeBuildInputs = [
             cmake
@@ -46,15 +43,17 @@
           doCheck = true;
           cmakeFlags = [ "-DENABLE_TESTING=ON" ];
         });
-
-        devShell = pkgs.mkShell {
-          buildInputs = [
-            packages.mylib.nativeBuildInputs
-            packages.mylib.buildInputs
-          ];
-        };
-
-        defaultPackage = packages.mylib;
-
       });
+
+      devShells = forAllSystems
+        (pkgs: {
+          default = pkgs.mkShell rec {
+            buildInputs = [
+              packages.mylib.nativeBuildInputs
+              packages.mylib.buildInputs
+
+            ];
+          };
+        });
+    };
 }
