@@ -15,6 +15,10 @@
         path = ./qt-application;
         description = "Qt application with cmake template";
       };
+      rust = {
+        path = ./rust;
+        description = "Rust project template";
+      };
     };
   };
 }
