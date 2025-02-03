@@ -11,6 +11,10 @@
         path = ./esp-idf;
         description = "ESP IDF project template";
       };
+      flutter-android = {
+        path = ./flutter-android;
+        description = "Flutter android template";
+      };
       qt-application = {
         path = ./qt-application;
         description = "Qt application with cmake template";

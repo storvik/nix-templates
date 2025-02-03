@@ -6,7 +6,7 @@ This is a template to easily get started with a Rust project utilizing Nix.
 
 ``` shell
 $ mkdir myrustapp && cd myrustapp
-$ nix flake init -t github:storvik/nix-templates#cpp-library
+$ nix flake init -t github:storvik/nix-templates#rust
 ```
 
 **2. Change name**
