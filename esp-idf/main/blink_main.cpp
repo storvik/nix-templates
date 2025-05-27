@@ -1,10 +1,10 @@
+#include <cstdio>
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "led_strip.h"
 #include "sdkconfig.h"
-#include <stdio.h>
 
 static const char *TAG = "example";
 
@@ -27,7 +27,7 @@ static void configure_led(void) {
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 }
 
-void app_main(void) {
+extern "C" [[noreturn]] void app_main(void) {
 
   /* Configure the peripheral according to the LED type */
   configure_led();
